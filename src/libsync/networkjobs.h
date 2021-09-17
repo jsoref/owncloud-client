@@ -315,7 +315,7 @@ public:
     void start() override;
 
 signals:
-    void etagRetreived(const QByteArray &etag, const QDateTime &time);
+    void etagRetrieved(const QByteArray &etag, const QDateTime &time);
     void finishedWithResult(const HttpResult<QByteArray> &etag);
 
 private slots:
@@ -402,7 +402,7 @@ protected Q_SLOTS:
 };
 
 /**
- * @brief A basic job around a network request without extra funtionality
+ * @brief A basic job around a network request without extra functionality
  * @ingroup libsync
  *
  * Primarily adds timeout and redirection handling.

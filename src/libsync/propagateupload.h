@@ -261,7 +261,7 @@ protected:
 /**
  * @ingroup libsync
  *
- * Propagation job, impementing the old chunking agorithm
+ * Propagation job, implementing the old chunking algorithm
  *
  */
 class PropagateUploadFileV1 : public PropagateUploadFileCommon
@@ -286,7 +286,7 @@ private:
 
     qint64 chunkSize() const {
         // Old chunking does not use dynamic chunking algorithm, and does not adjusts the chunk size respectively,
-        // thus this value should be used as the one classifing item to be chunked
+        // thus this value should be used as the one classifying item to be chunked
         return propagator()->syncOptions()._initialChunkSize;
     }
 
@@ -308,7 +308,7 @@ private slots:
 /**
  * @ingroup libsync
  *
- * Propagation job, impementing the new chunking agorithm
+ * Propagation job, implementing the new chunking algorithm
  *
  */
 class PropagateUploadFileNG : public PropagateUploadFileCommon
@@ -365,7 +365,7 @@ private:
      * Finds the range starting at 'start' in _rangesToUpload and removes the first
      * 'size' bytes from it. If it becomes empty, remove the range.
      *
-     * Retuns false if no matching range was found.
+     * Returns false if no matching range was found.
      */
     bool markRangeAsDone(qint64 start, qint64 size);
 

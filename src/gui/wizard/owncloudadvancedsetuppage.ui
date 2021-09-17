@@ -177,7 +177,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="confTraillingSizeLabel">
+                 <widget class="QLabel" name="confTrailingSizeLabel">
                   <property name="text">
                    <string extracomment="Trailing part of &quot;Ask confirmation before syncing folder larger than&quot; ">MB</string>
                   </property>
@@ -469,7 +469,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If this box is checked, existing content in the local folder will be erased to start a clean sync from the server.&lt;/p&gt;&lt;p&gt;Do not check this if the local content should be uploaded to the servers folder.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Start a &amp;clean sync (Crreate a backup and erases the local folder!)</string>
+               <string>Start a &amp;clean sync (Create a backup and erases the local folder!)</string>
               </property>
               <property name="checkable">
                <bool>true</bool>

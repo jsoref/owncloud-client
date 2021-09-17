@@ -69,9 +69,9 @@ class RegisterClientJob : public QObject
 {
     Q_OBJECT
 public:
-    RegisterClientJob(Account *accout, const QUrl &registrationEndpoint, QObject *parent)
+    RegisterClientJob(Account *account, const QUrl &registrationEndpoint, QObject *parent)
         : QObject(parent)
-        , _account(accout)
+        , _account(account)
         , _registrationEndpoint(registrationEndpoint)
     {
         connect(this, &RegisterClientJob::errorOccured, this, &RegisterClientJob::deleteLater);
@@ -84,10 +84,10 @@ public:
         connect(job, &CredentialJob::finished, this, [this, job] {
             qDebug() << job->errorString() << job->error();
             if (job->data().isValid()) {
-                rgisterClientFinished(job->data().value<QVariantMap>());
+                registerClientFinished(job->data().value<QVariantMap>());
             } else {
                 qCCritical(lcOauth) << "Failed to read client id" << job->errorString();
-                rgisterClientOnline();
+                registerClientOnline();
             }
         });
     }
@@ -97,7 +97,7 @@ Q_SIGNALS:
     void errorOccured(const QString &error);
 
 private:
-    void rgisterClientOnline()
+    void registerClientOnline()
     {
         auto job = new OCC::SimpleNetworkJob(_account->sharedFromThis(), this);
         job->setAuthenticationJob(true);
@@ -106,7 +106,7 @@ private:
             QJsonParseError error;
             const auto json = QJsonDocument::fromJson(data, &error);
             if (error.error == QJsonParseError::NoError) {
-                rgisterClientFinished(json.object().toVariantMap());
+                registerClientFinished(json.object().toVariantMap());
             } else {
                 qCWarning(lcOauth) << "Failed to register the client" << error.errorString() << data;
                 Q_EMIT errorOccured(error.errorString());
@@ -120,7 +120,7 @@ private:
         job->start();
     }
 
-    void rgisterClientFinished(const QVariantMap &data)
+    void registerClientFinished(const QVariantMap &data)
     {
         {
             QString error;
@@ -132,11 +132,11 @@ private:
             // 0 means it doesn't expire
             if (expireDate) {
                 const auto qExpireDate = QDateTime::fromSecsSinceEpoch(expireDate);
-                qCInfo(lcOauth) << "Client id iessued at:" << QDateTime::fromSecsSinceEpoch(data[QStringLiteral("client_id_issued_at")].value<quint64>())
+                qCInfo(lcOauth) << "Client id issued at:" << QDateTime::fromSecsSinceEpoch(data[QStringLiteral("client_id_issued_at")].value<quint64>())
                                 << "expires at" << qExpireDate;
                 if (QDateTime::currentDateTimeUtc() > qExpireDate) {
                     qCDebug(lcOauth) << "Client registration expired";
-                    rgisterClientOnline();
+                    registerClientOnline();
                     return;
                 }
             }
@@ -388,12 +388,12 @@ void OAuth::finalize(const QPointer<QTcpSocket> &socket, const QString &accessTo
         // We are still listening on the socket so we will get the new connection
         return;
     }
-    const auto loginSuccessfullHtml = QByteArrayLiteral("<h1>Login Successful</h1><p>You can close this window.</p>");
+    const auto loginSuccessfulHtml = QByteArrayLiteral("<h1>Login Successful</h1><p>You can close this window.</p>");
     if (messageUrl.isValid()) {
-        httpReplyAndClose(socket, QByteArrayLiteral("303 See Other"), loginSuccessfullHtml,
+        httpReplyAndClose(socket, QByteArrayLiteral("303 See Other"), loginSuccessfulHtml,
             QByteArrayLiteral("Location: ") + messageUrl.toEncoded());
     } else {
-        httpReplyAndClose(socket, QByteArrayLiteral("200 OK"), loginSuccessfullHtml);
+        httpReplyAndClose(socket, QByteArrayLiteral("200 OK"), loginSuccessfulHtml);
     }
     emit result(LoggedIn, user, accessToken, refreshToken);
 }
@@ -420,7 +420,7 @@ SimpleNetworkJob *OAuth::postTokenRequest(const QList<QPair<QString, QString>> &
 
 QByteArray OAuth::generateRandomString(size_t size) const
 {
-    // TODO: do we need a varaible size?
+    // TODO: do we need a variable size?
     std::vector<quint32> buffer(size, 0);
     QRandomGenerator::global()->fillRange(buffer.data(), static_cast<qsizetype>(size));
     return QByteArray(reinterpret_cast<char *>(buffer.data()), static_cast<int>(size * sizeof(quint32))).toBase64(QByteArray::Base64UrlEncoding);

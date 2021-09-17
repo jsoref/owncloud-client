@@ -3694,7 +3694,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <name>OCC::SocketUploadJob</name>
     <message>
         <location filename="../src/gui/socketapi/socketuploadjob.cpp" line="65"/>
-        <source>Failed to rerieve tags</source>
+        <source>Failed to retrieve tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4389,7 +4389,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="472"/>
-        <source>Start a &amp;clean sync (Crreate a backup and erases the local folder!)</source>
+        <source>Start a &amp;clean sync (Create a backup and erases the local folder!)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -276,7 +276,7 @@ void SyncEngine::conflictRecordMaintenance()
     // If so, add them now.
     //
     // This happens when the conflicts table is new or when conflict files
-    // are downlaoded but the server doesn't send conflict headers.
+    // are downloaded but the server doesn't send conflict headers.
     for (const auto &path : qAsConst(_seenConflictFiles)) {
         OC_ASSERT(Utility::isConflictFile(path));
 
@@ -457,7 +457,7 @@ void SyncEngine::startSync()
     emit transmissionProgress(*_progressInfo);
 
     // TODO: add a constructor to DiscoveryPhase
-    // pass a syncEngine object rather than copying everyhting to another object
+    // pass a syncEngine object rather than copying everything to another object
     _discoveryPhase.reset(new DiscoveryPhase);
     _discoveryPhase->_account = _account;
     _discoveryPhase->_excludes = _excludedFiles.data();
